@@ -1,5 +1,11 @@
 # Wetter & Faden · Outfit-Planer-Prototyp
 
+## Agent öffnen
+
+**[Wetter & Faden starten](https://malikbolum.github.io/outfit-agent/)**
+
+Falls der Link noch nicht lädt, GitHub Pages im Repository unter **Settings → Pages** für den Branch `main` und den Ordner `/(root)` aktivieren. Die Veröffentlichung kann einige Minuten dauern.
+
 Eine eigenständige Website für eine Live-Vorführung. Jede Person richtet ihr Profil im eigenen Browser ein. Es gibt keine Anmeldung und keinen Server für Profile.
 
 ## Für die Vorlesung öffnen
