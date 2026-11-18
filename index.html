@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2ec">
+  <meta name="description" content="Dein persönlicher Outfit-Planer: Wetter, Anlass und Stil in drei Ideen für heute.">
+  <title>Wetter & Faden · Dein Outfit-Planer</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#today" aria-label="Wetter und Faden, Startseite"><span class="brand-mark">w.</span><span>Wetter <i>&</i> Faden<small>DEIN OUTFIT-PLANER</small></span></a>
+    <nav aria-label="Hauptnavigation">
+      <button class="nav-link active" data-view="today">Heute</button>
+      <button class="nav-link" data-view="week">Wochenplan</button>
+      <button class="nav-link" data-view="wardrobe">Verlauf & Favoriten</button>
+      <button class="nav-link" data-view="profile">Mein Profil</button>
+    </nav>
+    <label class="language-switch">Sprache <select id="languageMode" aria-label="Sprachstil"><option value="plain">Einfach</option><option value="fashion">Modebegriffe + Erklärung</option></select></label>
+  </header>
+
+  <main>
+    <section id="view-today" class="view active-view">
+      <div class="hero-grid">
+        <div class="hero-copy"><p class="eyebrow" id="todayDate"></p><h1 id="dateHeading">Was passt heute zu dir?</h1><p class="lead">Drei Ideen, abgestimmt auf deinen Tag, deinen Stil und das Wetter.</p>
+          <div class="weather-card" id="weatherCard"><div class="weather-icon" id="weatherIcon">◌</div><div class="weather-info"><strong id="weatherSummary">Wetter wird geladen …</strong><span id="weatherMeta">Deine Stadt wird verwendet</span></div><button id="changeCity" class="text-button">Ort ändern</button></div>
+          <div id="weatherFallback" class="weather-fallback" hidden><p id="weatherError"></p><label for="manualWeather">Wähle eine eigene Wetter-Einschätzung</label><select id="manualWeather"><option value="">Keine Angabe</option><option value="cold">Kalt</option><option value="rain">Regnerisch</option><option value="wind">Windig</option><option value="sun">Sonnig</option><option value="mild">Angenehm</option></select><button id="useManualWeather" class="button button-small">Vorschläge aktualisieren</button></div>
+        </div>
+        <aside class="today-plan"><div class="section-kicker">DEIN TAG</div><div id="todayActivities" class="today-activities"></div><button id="changeOccasion" class="button button-outline">+ Anlass ändern</button><p class="microcopy">Du kannst den Anlass jederzeit spontan anpassen.</p></aside>
+      </div>
+      <div class="recommendation-heading"><div><p class="eyebrow">DREI IDEEN FÜR DICH</p><h2>Wähle, worin du dich wohlfühlst.</h2></div><span class="tag" id="recommendationStatus">Wird vorbereitet</span></div>
+      <div id="recommendations" class="outfit-grid" aria-live="polite"></div>
+      <div class="change-request panel"><div><p class="eyebrow">NOCH NICHT GANZ DEINS?</p><h2>Ändere den Vorschlag</h2><p>Schreib kurz, was anders sein soll. Deine dauerhaften Vorlieben kannst du im Profil speichern.</p></div><div class="change-form"><label class="sr-only" for="changeText">Wunschänderung</label><input id="changeText" placeholder="z. B. dünnere Jacke, bitte keine kurzen Hosen"><button id="applyChange" class="button">Anpassen</button></div><p id="changeNote" class="small-note"></p></div>
+      <p class="demo-disclosure"><strong>Prototyp:</strong> Empfehlungen werden aktuell durch nachvollziehbare Auswahlregeln erstellt – kein Sprachmodell. Wetterabfrage ist live, wenn eine Verbindung besteht. Vorschläge sind Inspiration, keine Garantie für Wetter oder Passform.</p>
+    </section>
+
+    <section id="view-week" class="view">
+      <div class="page-heading"><p class="eyebrow">DEINE WOCHE · FREIWILLIG</p><h1>Plane, was ansteht.</h1><p>Regelmäßige Termine kannst du wöchentlich wiederholen. Ohne Planung zeigt „Heute“ einen Alltagsvorschlag.</p></div>
+      <div class="week-layout"><div class="panel week-editor"><h2>Aktivität eintragen</h2><form id="activityForm"><label>Tag<select id="activityDay"></select></label><label>Anlass<select id="activityType"></select></label><label id="subtypeWrap" hidden>Was für ein Date?<select id="activitySubtype"><option>Kaffee</option><option>Bar</option><option>Essen gehen</option><option>Kino</option><option>Museum</option></select></label><label id="otherWrap" hidden>Was steht an?<input id="activityNote" placeholder="z. B. Familienfeier"></label><label>Tagesabschnitt<select id="activityPeriod"><option>Ganztags</option><option>Vormittag</option><option>Nachmittag</option><option>Abend</option></select></label><label>Ort, falls anders als deine Standardstadt<input id="activityCity" placeholder="Optional"></label><label class="check-row"><input type="checkbox" id="activityRepeat"> Jede Woche wiederholen</label><button class="button" type="submit">Zum Wochenplan hinzufügen</button></form></div><div id="weekGrid" class="week-grid"></div></div>
+    </section>
+
+    <section id="view-profile" class="view">
+      <div class="page-heading"><p class="eyebrow">NUR AUF DIESEM GERÄT GESPEICHERT</p><h1>Dein Profil.</h1><p>Teile den Link gern weiter: Jede Person richtet ihr Profil im eigenen Browser ein.</p></div>
+      <form id="profileForm" class="profile-grid">
+        <div class="panel"><h2>Dein Stil</h2><label>Stil<select id="profileStyle" required><option value="">Bitte auswählen</option><option value="Casual">Locker und bequem (Casual)</option><option value="Sportlich">Sportlich</option><option value="Elegant">Elegant</option><option value="Business">Business / Arbeit</option><option value="Alltagsstil">Alltagsstil</option></select><small class="help">Zum Beispiel: locker und bequem bedeutet unkomplizierte Teile für den Alltag.</small></label><label>Passform<select id="profileFit" required><option value="">Bitte auswählen</option><option>Eng</option><option>Normal und bequem</option><option>Locker / weit (oversized)</option></select></label><label>Geschlecht<select id="profileGender" required><option value="">Bitte auswählen</option><option value="female">Weiblich</option><option value="male">Männlich</option><option value="diverse">Divers</option></select><small class="help">Beeinflusst die Grundauswahl. Deine persönlichen Ausschlüsse gelten immer.</small></label><label>Alter <span class="optional">optional</span><input id="profileAge" type="number" min="0" max="110" placeholder="z. B. 35"></label><label>Deine Stadt<input id="profileCity" required placeholder="z. B. Nürtingen"></label></div>
+        <div class="panel"><h2>Farben & Vorlieben</h2><fieldset><legend>Lieblingsfarben <span class="optional">optional · mehrere möglich</span></legend><div id="colorChoices" class="choice-grid"></div><label class="check-row"><input id="noColorPreference" type="checkbox"> Keine Präferenz – alle Farben möglich</label></fieldset><fieldset><legend>Kleidungsstücke ausschließen</legend><div id="excludeChoices" class="choice-grid"></div><label>Zusätzlicher Wunsch<input id="customExclude" placeholder="z. B. keine Wolle, nur bequeme Schuhe"></label><small class="help">Diese Regeln werden bei künftigen Vorschlägen berücksichtigt. Du kannst sie jederzeit ändern.</small></fieldset><div class="likes-grid"><label>Mag ich<input id="likeInput" placeholder="z. B. Strickpullover"><button type="button" class="mini-add" data-add="likes">Hinzufügen</button></label><label>Mag ich nicht<input id="dislikeInput" placeholder="z. B. sehr enge Jeans"><button type="button" class="mini-add" data-add="dislikes">Hinzufügen</button></label></div><div id="likesList" class="chips"></div><div id="dislikesList" class="chips"></div></div>
+        <div class="panel profile-save"><p>Profil und Einstellungen bleiben in diesem Browser. Gib keine sensiblen Informationen ein.</p><button class="button" type="submit">Profil speichern</button><button type="button" id="clearData" class="text-button danger">Meine Daten auf diesem Gerät löschen</button></div>
+      </form>
+    </section>
+
+    <section id="view-wardrobe" class="view">
+      <div class="page-heading"><p class="eyebrow">DEINE AUSWAHLEN</p><h1>Getragen & gemerkt.</h1><p>Der Agent nutzt deine letzten Auswahlen, um etwas Abwechslung zu schaffen. Getragene Looks dürfen später wiederkommen.</p></div>
+      <div class="history-grid"><div class="panel"><div class="panel-title"><h2>Favorisierte Outfit-Ideen</h2><button id="clearFavorites" class="text-button">Alle entfernen</button></div><div id="favoriteList" class="saved-list"></div></div><div class="panel"><div class="panel-title"><h2>Getragene Outfits</h2><button id="clearHistory" class="text-button">Verlauf löschen</button></div><div id="historyList" class="saved-list"></div></div></div>
+      <div class="panel"><h2>Favorisierte Kleidungsstücke</h2><p class="small-note">Kleiderschrank-Fotoerkennung ist für später vorgesehen. Du musst jetzt nicht alle deine Kleidungsstücke eintragen.</p><label>Lieblingsstück<input id="favoriteClothingInput" placeholder="z. B. meine dunkelblaue Jeans"><button id="addFavoriteClothing" class="mini-add" type="button">Hinzufügen</button></label><div id="clothingFavorites" class="chips"></div></div>
+    </section>
+
+    <section class="footer-note"><span>Wetterquelle: <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> · Deine Stadt wird beim Abruf an den Wetterdienst übermittelt.</span><button id="aboutButton" class="text-button">Über Sicherheit & Grenzen</button></section>
+  </main>
+
+  <dialog id="activityDialog"><form method="dialog" id="dialogForm"><button class="dialog-close" aria-label="Schließen">×</button><p class="eyebrow">SPONTANER PLANWECHSEL</p><h2 id="dialogTitle">Was steht an?</h2><label>Anlass<select id="quickOccasion"></select></label><label id="quickSubtypeWrap" hidden>Art des Dates<select id="quickSubtype"><option>Kaffee</option><option>Bar</option><option>Essen gehen</option><option>Kino</option><option>Museum</option></select></label><label id="quickOtherWrap" hidden>Was steht an?<input id="quickNote" placeholder="z. B. Familienfeier"></label><label>Ort für diesen Tag<input id="overrideCity" placeholder="Standardstadt wird verwendet"></label><label>Tagesabschnitt<select id="quickPeriod"><option>Ganztags</option><option>Vormittag</option><option>Nachmittag</option><option>Abend</option></select></label><label class="check-row"><input type="checkbox" id="quickAddAnother"> Als zusätzlichen Termin eintragen; andere Aktivitäten behalten</label><button id="saveQuickActivity" class="button" value="default">Vorschläge aktualisieren</button></form></dialog>
+  <dialog id="cityDialog"><form method="dialog"><button class="dialog-close" aria-label="Schließen">×</button><p class="eyebrow">WO BIST DU HEUTE?</p><h2>Ort für heute ändern</h2><label>Stadt<input id="cityInput" placeholder="z. B. Stuttgart"></label><button id="saveCity" class="button">Wetter für heute abrufen</button><p class="small-note">Deine gespeicherte Standardstadt im Profil bleibt unverändert.</p></form></dialog>
+  <dialog id="aboutDialog"><form method="dialog"><button class="dialog-close" aria-label="Schließen">×</button><p class="eyebrow">SICHERHEIT & TRANSPARENZ</p><h2>Was der Prototyp tut</h2><ul><li>Profile, Pläne und Verlauf bleiben lokal in diesem Browser.</li><li>Die eingegebene Stadt wird an Open-Meteo gesendet, um Wetter abzurufen.</li><li>Keine Kamera, kein Standortzugriff, kein Einkaufen, keine Nachrichten, keine Zahlungen oder Löschaktionen.</li><li>Vorschlagsregeln sind lokal und nachvollziehbar; importierte Textanweisungen werden nicht als Berechtigung behandelt.</li><li>T01, T04 und T06 sind noch nicht als Sicherheitsprüfung nachgewiesen. Prototyp nicht zertifiziert.</li></ul><button class="button" value="close">Verstanden</button></form></dialog>
+  <div id="toast" role="status" class="toast" hidden></div>
+</body>
+</html>
