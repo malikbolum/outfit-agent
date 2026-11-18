@@ -1,48 +1,56 @@
-# Wetter & Faden · Outfit-Planer-Prototyp
+# Wetter & Faden · Outfit-Planer
 
-## Agent öffnen
+**[Wetter & Faden auf GitHub Pages öffnen →](https://malikbolum.github.io/outfit-agent/)**
 
-**[Wetter & Faden starten](https://malikbolum.github.io/outfit-agent/)**
+## Die Idee
 
-Falls der Link noch nicht lädt, GitHub Pages im Repository unter **Settings → Pages** für den Branch `main` und den Ordner `/(root)` aktivieren. Die Veröffentlichung kann einige Minuten dauern.
+Wetter & Faden hilft dabei, passende Kleidung für den heutigen Tag zu finden. Der Outfit-Planer berücksichtigt Wetter, Anlass und persönliche Vorlieben und macht drei Vorschläge zur Auswahl. Er ist ein regelbasierter Prototyp und nutzt noch kein Sprachmodell.
 
-Eine eigenständige Website für eine Live-Vorführung. Jede Person richtet ihr Profil im eigenen Browser ein. Es gibt keine Anmeldung und keinen Server für Profile.
+### A · Planen: Wetter und Anlässe
 
-## Für die Vorlesung öffnen
+Gib eine Stadt ein, damit der Agent das Wetter für heute abruft. Bei einem Wetterfehler kannst du die Wetterlage selbst auswählen. Der Agent berücksichtigt außerdem die Jahreszeit. Du kannst spontan einen Anlass ändern oder mehrere Aktivitäten für denselben Tag planen, etwa Uni am Vormittag und ein Treffen am Abend.
 
-1. `index.html` im Browser öffnen. Wenn der Browser externe Wetterabfragen von lokalen Dateien blockiert, die Website über einen lokalen Webserver öffnen.
-2. **Mein Profil** öffnen und Geschlecht, Stadt, Stil und Passform setzen. Alter und Lieblingsfarben sind optional.
-3. Auf **Heute** zurückgehen. Der Wetterabruf startet automatisch; bei einem Fehler lässt sich das Wetter manuell auswählen.
-4. **Anlass ändern** ausprobieren, anschließend drei Varianten vergleichen und eine als getragen markieren oder favorisieren.
-5. Im **Wochenplan** Termine eintragen. „Jede Woche wiederholen“ übernimmt den Termin in folgenden Wochen.
+### B · Auswählen: Drei Outfit-Ideen
 
-Lokaler Webserver, falls nötig:
+Für den Tag erscheinen drei Varianten, die zum Anlass und Wetter passen sollen. Wähle eine aus, markiere sie als getragen oder speichere sie als Favorit. Ein Regenschauer-Hinweis ergänzt die Vorschläge, wenn Regen erwartet wird. Über das Änderungsfeld kannst du Wünsche nennen; einfache Anpassungen versteht der Prototyp über Regeln.
+
+### C · Personalisieren: Profil und Vorlieben
+
+Im Profil kannst du Stil, Passform und Stadt festlegen. Alter und Lieblingsfarben sind optional. Du kannst außerdem Kleidungsstücke oder Eigenschaften bevorzugen und ausschließen. Die Sprache lässt sich zwischen einfachen Erklärungen und Modebegriffen umschalten.
+
+### D · Organisieren: Wochenplan und Verlauf
+
+Trage Aktivitäten in den Wochenplan ein, zum Beispiel Uni, Arbeit, Schule, Termine, Sport oder Date. Du kannst Tagesabschnitte wählen und regelmäßige Termine wöchentlich wiederholen lassen. Der Verlauf zeigt ausgewählte und favorisierte Outfits; Einträge lassen sich wieder entfernen.
+
+## Technik im Überblick
+
+Die Anwendung besteht aus HTML, CSS und JavaScript ohne Build-Schritt, Backend, Anmeldung oder Modell-API. Wetterdaten werden von Open-Meteo abgerufen; dafür wird die eingegebene Stadt an den Wetterdienst gesendet. Profil, Wochenplan, Verlauf und Favoriten werden lokal im Browser gespeichert und nicht zwischen Geräten synchronisiert.
+
+## Starten
+
+Online öffnen über [GitHub Pages](https://malikbolum.github.io/outfit-agent/).
+
+Zum lokalen Starten im Projektordner `start.command` doppelklicken. Alternativ im Terminal:
 
 ```bash
-cd Outfit-Agent
 python3 -m http.server 8000
 ```
 
-Danach `http://localhost:8000` öffnen. Wetter kommt von Open-Meteo; bei diesem Abruf wird der eingegebene Ort an diesen Wetterdienst übertragen. Bei einer Veröffentlichung muss zusätzlich die Open-Meteo-Datenlizenz/Attribution geprüft und angezeigt werden.
+Dann im Browser `http://localhost:8000` öffnen. Das Terminalfenster muss während der Nutzung geöffnet bleiben.
 
-## Was funktioniert
+## Daten und Grenzen
 
-- Heute-Seite mit automatischem Geocoding und Abruf aktueller Wetterbedingungen/Regenschauer-Wahrscheinlichkeit.
-- Manuelle Wettereinschätzung als Fallback; bei „Keine Angabe“ bleiben Jahreszeit und Anlass berücksichtigt.
-- Drei regelbasiert erzeugte Varianten, spontane Anlassänderung, kurze Begründungen und Regenhinweis.
-- Profil, Spracheinstellung, Wochenplan, wiederkehrende Termine, Outfit-Auswahl und Favoriten lokal im Browser.
-- Profileinstellungen, Stadt und gespeicherte Einträge lassen sich bearbeiten bzw. löschen.
+- Die Wetterabfrage benötigt eine Internetverbindung. Bei Ausfall kannst du das Wetter manuell eingeben oder ohne Wetterangabe weitermachen; die Jahreszeit wird weiterhin berücksichtigt.
+- Profileinstellungen, Wochenplan, Verlauf und Vorlieben bleiben im Browser auf diesem Gerät. Browserdaten können durch Löschen der Browserdaten verloren gehen.
+- Der Agent kennt deinen Kleiderschrank nicht und verarbeitet keine Kleidungfotos.
+- Outfit-Empfehlungen werden durch nachvollziehbare Regeln erstellt, nicht durch ein angebundenes Sprachmodell. Freitextänderungen werden nur teilweise erkannt.
+- Der Prototyp ist keine Sicherheitszertifizierung und garantiert weder Wetter noch Passform oder persönliche Eignung.
 
-## Grenzen für die ehrliche Vorführung
+## Dateien
 
-- Dies ist Version 0.1 eines **regelbasierten Agenten-Prototyps**, noch kein angebundenes Sprachmodell. Änderungen in Freitext werden nur teilweise durch einfache Regeln erkannt.
-- Die Vorschläge sind Outfit-Ideen; der Agent kennt nicht automatisch den Kleiderschrank der Person. Fotos werden nicht verarbeitet.
-- Das Geschlechtsfeld ist für die Grundauswahl erforderlich. In dieser ersten Version schließt „männlich“ Röcke und Kleider aus; persönliche Ausschlüsse verändern die Vorschläge. Diese Vorauswahl ist eine explizite Produktentscheidung und muss in der Demo offen erklärt werden.
-- Alter wird als grober Stilfaktor eingesetzt. Die einfache Regel ersetzt keine individuellen Vorlieben.
-- Wochenplanung und Verlauf sind lokal gespeichert. Eine Browserinstallation oder ein anderes Gerät teilt diese Daten nicht automatisch.
-- T01 (Normalfall), T04 (manipulierte Anweisung) und T06 (unerlaubte Aktion) sind noch **nicht** als Sicherheitsprüfung durchgeführt. Der Sicherheitstext in der Website weist dies aus. Keine Zertifizierung oder Sicherheitsgarantie.
-- Push-Mitteilungen, echte KI-Anbindung, Foto-/Garderobenerfassung und Veröffentlichung sind spätere Ausbauschritte.
-
-## Sicherheitsgrenzen
-
-Die Seite verwendet keine Kamera, keinen Browser-Standort, keine Einkaufs-/Nachrichtenwerkzeuge und keine Modell-API. Profile und Notizen werden als lokale Daten behandelt. Nur die für Wetter notwendige Stadt wird an Open-Meteo gesendet. Quelle: [Wetter-API](https://open-meteo.com/).
+- `index.html` – Oberfläche und Dialoge
+- `styles.css` – Gestaltung und responsive Darstellung
+- `app.js` – Wetterabruf, Outfit-Regeln, Profil, Planer und lokaler Verlauf
+- `start.command` – Start des lokalen Webservers auf macOS
+- `SICHERHEIT.md` – Sicherheitsgrenzen und Hinweise
+- `konzept.md` – Funktionskonzept des Outfit-Agenten
